@@ -4,18 +4,6 @@ package routes
 import "github.com/revel/revel"
 
 
-type tTestApi struct {}
-var TestApi tTestApi
-
-
-func (_ tTestApi) Index(
-		) string {
-	args := make(map[string]string)
-	
-	return revel.MainRouter.Reverse("TestApi.Index", args).URL
-}
-
-
 type tApp struct {}
 var App tApp
 
@@ -65,6 +53,18 @@ func (_ tArticleApi) DeleteArticle(
 	args := make(map[string]string)
 	
 	return revel.MainRouter.Reverse("ArticleApi.DeleteArticle", args).URL
+}
+
+
+type tTestApi struct {}
+var TestApi tTestApi
+
+
+func (_ tTestApi) Index(
+		) string {
+	args := make(map[string]string)
+	
+	return revel.MainRouter.Reverse("TestApi.Index", args).URL
 }
 
 

@@ -1,6 +1,6 @@
-# create
+#create
 URL:http://XXX.XXX.XXX.XXX:9000/api/article/create
-Content-Type:x-www-form-urlencode
+リクエストフォーマット:x-www-form-urlencode
 → chromeのDHCを使う時はテキストじゃなくてformでリクエストすること
 リクエスト要素：title,text
 

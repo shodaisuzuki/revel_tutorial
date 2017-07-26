@@ -25,8 +25,15 @@ func (c ArticleApi) GetArticles() revel.Result {
 
 func (c ArticleApi) GetArticle() revel.Result {
 
+    // ルーティングで設定したurlに含まれる :id とかの部分はc.Params.Route.Getで取得
+    id := c.Params.Route.Get("id")
+
+    article := []models.Article{}
+    // DB.Firstの第二引数にそのidを渡してあげると第一引数のモデルからidが一致するデータを検索してくれます
+    DB.First(&article, id)
+
     response := JsonResponse{}
-    response.Response = "single article"
+    response.Response = article
 
     return c.RenderJSON(response)
 }
@@ -52,16 +59,34 @@ func (c ArticleApi) PostArticle() revel.Result {
 
 func (c ArticleApi) PutArticle() revel.Result {
 
+    id := c.Params.Route.Get("id")
+
+    article := &models.Article{}
+    DB.First(&article, id)
+
+    // DB.First()で返ってきたデータの中身を入れ直す
+    article.Title = c.Params.Form.Get("title")
+    article.Text = c.Params.Form.Get("text")
+
+    // 入れ直したものをSave
+    DB.Save(&article)
+
     response := JsonResponse{}
-    response.Response = "put article"
+    response.Response = article
 
     return c.RenderJSON(response)
 }
 
 func (c ArticleApi) DeleteArticle() revel.Result {
 
+    id := c.Params.Route.Get("id")
+
+    article := []models.Article{}
+    // 第二引数入れたidに一致するデータを第一引数のモデルから削除
+    DB.Delete(&article, id)
+
     response := JsonResponse{}
-    response.Response = "delete article"
+    response.Response = "deleted. id: " + id
 
     return c.RenderJSON(response)
 }
